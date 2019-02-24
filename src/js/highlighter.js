@@ -77,9 +77,16 @@ class KeyBindings {
 
     static executeKeyPress(key) {
         var elementToSelect = this.bindings[key];
-        elementToSelect.click();
-        elementToSelect.focus();
-        console.log(elementToSelect);
+        var clicked_ones = chrome.storage.local.get(['kbd-clicked']);
+        var metadata = {
+            "url": document.location.href,
+            "time": new Date().getUTCHours(),
+            "classes": elementToSelect.classList,
+            "height": elementToSelect.offsetHeight,
+            "width": elementToSelect.offsetWidth
+        };
+        clicked_ones.push(metadata);
+        chrome.storage.local.set({'kbd-clicked': clicked_ones});
     }
 
     static loadKeyPresses(elements) {
