@@ -1,6 +1,11 @@
 class KBD {
     static getElementsInOrder() {
-        var forest = chrome.storage.local.get(['kbd-forest']);
+        var forest = null;
+        try {
+            forest = chrome.storage.local.get(['kbd-forest']);
+        } catch (e) {
+            // catch
+        }
 
         var body = document.body;
         var html = document.documentElement;
@@ -15,6 +20,9 @@ class KBD {
         }
 
         function getRandomForestProbability(elementToSelect) {
+            if (forest === null) 
+                return 0;
+                
             var metadata = [
                 new Date().getUTCHours(),
                 elementToSelect.classList.length > 0 ? 1 : 0,
