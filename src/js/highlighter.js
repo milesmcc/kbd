@@ -3,7 +3,9 @@ document.querySelector('body').addEventListener('keypress', function (event) {
         return;
     }
     if (document.activeElement.nodeName == "INPUT" || document.activeElement.nodeName == "TEXTAREA") {
+        // if (KeyBindings.hasBindings(event.key)) {
         return;
+        // }
     }
     if (event.key == "r") {
         KeyBindings.init();
@@ -11,8 +13,17 @@ document.querySelector('body').addEventListener('keypress', function (event) {
     if (event.key == "t") {
         KeyBindings.toggle();
     }
-    KeyBindings.executeKeyPress(event.key);
-    event.preventDefault();
+    action = KeyBindings.executeKeyPress(event.key);
+    if (action) {
+        event.preventDefault();
+    }
+});
+
+document.querySelector('body').addEventListener('keydown', function (event) {
+    if (event.key == "Escape") {
+        // console.log("ESCAPE!!!!!!!");
+        document.activeElement.blur();
+    }
 });
 
 var disabled = false;
@@ -85,7 +96,10 @@ class KeyBindings {
     static hideOverlays() {
         $(".kbd-overlay").fadeOut(400);
     }
-
+    static hasBindings(key) {
+        var keys = Object.keys(this.bindings);
+        return key in keys;
+    }
     static showHighlights(firstpaint) {
         var keys = Object.keys(this.bindings);
         var i = 0;
@@ -121,7 +135,15 @@ class KeyBindings {
     }
 
     static executeKeyPress(key) {
+        var ret = true;
         var elementToSelect = this.bindings[key];
+        // console.log(key);
+        if (elementToSelect == null) {
+            // console.log("null");
+            ret = false;
+            return ret;
+        }
+        
         elementToSelect.click();
         elementToSelect.focus();
 
@@ -139,7 +161,10 @@ class KeyBindings {
         ];
         clicked_ones.push(metadata);
         chrome.storage.local.set({ 'kbd-clicked': clicked_ones });
-        chrome.storage.local.set({ 'kbd-unclicked': clicked_ones });
+        
+        // console.log("CLICKED!");
+        // console.log(clicked_ones);
+        
         var links = []
         chrome.storage.local.get(['kbd-everclicked'], function (data) {
             links = data['kbd-everclicked'];
@@ -151,14 +176,33 @@ class KeyBindings {
         if (clicked_ones.length % 1 === 0) {
             chrome.runtime.sendMessage("train");
         }
+        return ret;
     }
 
     static loadKeyPresses(elements) {
         var order = ["a", "b", "c", "d", "e", "f", "g", "h", "i", "j", "k", "l", "m", "n", "o", "p", "q", "r", "s", "t", "u", "v", "w", "x", "y", "z"];
+        
+        var unclicked_ones = [];
+        chrome.storage.local.get(['kbd-unclicked'], function (data) {
+            unclicked_ones = Array.from(data['kbd-unclicked']);
+        });
+        
         var keymap = {};
         for (var i = 0; i < elements.length && i < 8; i++) {
             keymap[order[i]] = elements[i];
+            var metadata = [
+                new Date().getUTCHours(),
+                elements[i].classList.length > 0 ? 1 : 0,
+                elements[i].offsetHeight,
+                elements[i].offsetWidth,
+                elements[i].hasAttribute("href") ? 1 : 0,
+                $(elements[i]).is("img") ? 1 : 0
+            ];
+            unclicked_ones.push(metadata);
         }
+        chrome.storage.local.set({'kbd-unclicked': unclicked_ones});
+        // console.log("UNCLICKED!");
+        // console.log(unclicked_ones);
         this.bindings = keymap;
     }
 }
