@@ -37,7 +37,7 @@ class KBD {
                 return -1;
                 
             score += Math.pow(($(element).height() * $(element).width()) / (window.innerHeight * window.innerWidth), 2) * 100;
-            score += getRandomForestProbability(element);
+            score += getRandomForestProbability(element)*10000;
 
             if (element.hasAttribute("href")) {
                 var links = []

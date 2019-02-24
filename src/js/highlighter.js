@@ -1,6 +1,10 @@
 document.querySelector('body').addEventListener('keypress', function (event) {
+    // console.log(event.key);
+    // console.log(event.keyCode);
     if (document.activeElement.nodeName == "INPUT" || document.activeElement.nodeName == "TEXTAREA") {
-        return;
+        if (KeyBindings.hasBindings(event.key)) {
+            return;
+        }
     }
     if (event.key == "r") {
         KeyBindings.init();
@@ -13,7 +17,12 @@ document.querySelector('body').addEventListener('keypress', function (event) {
         event.preventDefault();
     }
 });
-
+document.querySelector('body').addEventListener('keydown', function (event) {
+    if (event.key == "Escape") {
+        // console.log("ESCAPE!!!!!!!");
+        document.activeElement.blur();
+    }
+});
 window.onload = function () {
     KeyBindings.init();
 }
@@ -50,7 +59,10 @@ class KeyBindings {
     static hideOverlays() {
         $(".kbd-overlay").fadeOut(400);
     }
-
+    static hasBindings(key) {
+        var keys = Object.keys(this.bindings);
+        return key in keys;
+    }
     static showHighlights(firstpaint) {
         var keys = Object.keys(this.bindings);
         var i = 0;
@@ -82,16 +94,11 @@ class KeyBindings {
     }
 
     static executeKeyPress(key) {
-        // if (key.toLowerCase() === "escape") {
-        //     console.log("escape");
-        //     return false;
-        // }
-
         var ret = true;
         var elementToSelect = this.bindings[key];
-        console.log(key);
+        // console.log(key);
         if (elementToSelect == null) {
-            console.log("null");
+            // console.log("null");
             ret = false;
             return ret;
         }
@@ -113,7 +120,10 @@ class KeyBindings {
         ];
         clicked_ones.push(metadata);
         chrome.storage.local.set({ 'kbd-clicked': clicked_ones });
-        chrome.storage.local.set({ 'kbd-unclicked': clicked_ones });
+        
+        // console.log("CLICKED!");
+        // console.log(clicked_ones);
+        
         var links = []
         chrome.storage.local.get(['kbd-everclicked'], function (data) {
             links = data['kbd-everclicked'];
@@ -150,6 +160,8 @@ class KeyBindings {
             unclicked_ones.push(metadata);
         }
         chrome.storage.local.set({'kbd-unclicked': unclicked_ones});
+        // console.log("UNCLICKED!");
+        // console.log(unclicked_ones);
         this.bindings = keymap;
     }
 }
