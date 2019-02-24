@@ -42,9 +42,3 @@ class KBD {
         );
     }
 }
-
-document.querySelector('body').addEventListener('keydown', function() {
-    if (event.which == 65) {
-        alert(KBD.getElementsInOrder());
-    }
-});
