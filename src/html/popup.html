@@ -1,1 +1,62 @@
-<h1>Hello world!</h1>
+<!DOCTYPE html>
+<html>
+
+<head>
+    <link rel="stylesheet" href="/src/css/bootstrap.css">
+    <link rel="stylesheet" href="/src/css/popup.css">
+    <script src="/src/js/jquery-3.3.1.min.js"></script>
+    <script src="/src/js/panel.js"></script>
+    <style>
+        body {
+            width: 250px;
+        }
+
+        #top-bar {
+            background-color: #ffffffff;
+            -webkit-box-shadow: none;
+            box-shadow: none;
+        }
+
+        .progress-bar {
+            background: #3300CC;
+            /* fallback for old browsers */
+            background: -webkit-linear-gradient(to right, #3300CC, #CC0033);
+            /* Chrome 10-25, Safari 5.1-6 */
+            background: linear-gradient(to right, #3300CC, #CC0033);
+            /* W3C, IE 10+/ Edge, Firefox 16+, Chrome 26+, Opera 12+, Safari 7+ */
+            height: 8px !important;
+        }
+    </style>
+</head>
+
+<body>
+    <div class="progress" id="top-bar">
+        <div class="progress-bar" role="progressbar" style="width: 100%"></div>
+    </div>
+    <div class="container">
+        <div class="row top-row">
+            <div class="col-5">
+                <h1 style="color: #3300CC;"><strong>KBD</strong></h1>
+            </div>
+            <div class="col-7">
+                <p style="color: #3300CC; line-height: 1.30; padding-top: 4px;">Browse at the speed of kbd.</p>
+            </div>
+        </div>
+        <hr>
+        <div class="row">
+            <div class="col-4">
+                <label class="switch">
+                    <input type="checkbox" id="global-toggle">
+                    <span class="slider round"></span>
+                </label>
+            </div>
+            <div class="col-8" style="font-weight: bold;">
+                <p id="global-enabled" class="hidden">KBD is enabled</p>
+                <p id="global-disabled" class="hidden">KBD is disabled</p>
+            </div>
+        </div>
+    </div>
+    <p></p>
+</body>
+
+</html>

@@ -16,6 +16,7 @@
 }
 
 .kbd-keymark {
+    all: initial;
     background-color: #50505080;
     color: white;
     font-family: Helvetica, sans-serif;

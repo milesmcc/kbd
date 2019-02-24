@@ -3,15 +3,12 @@
     "version": "1.0",
     "description": "Add predictive text shortcuts to any website for power users and accessibility",
     "manifest_version": 2,
-    "page_action": {
-        "default_popup": "src/html/popup.html",
-        "default_icon": {
-            "48": "assets/keyboard.png",
-            "32": "assets/keyboard.png",
-            "128": "assets/keyboard.png"
-        }
+    "browser_action": {
+        "default_icon": "assets/keyboard.svg",
+        "default_title": "KBD",
+        "default_popup": "src/html/popup.html"
     },
-    "permissions": ["storage"],
+    "permissions": ["storage", "unlimitedStorage"],
     "background": {
         "scripts": ["src/js/brain.js", "src/js/randomforest.js"],
         "persistent": false
