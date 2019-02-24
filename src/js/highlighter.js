@@ -2,9 +2,9 @@ document.querySelector('body').addEventListener('keypress', function (event) {
     // console.log(event.key);
     // console.log(event.keyCode);
     if (document.activeElement.nodeName == "INPUT" || document.activeElement.nodeName == "TEXTAREA") {
-        if (KeyBindings.hasBindings(event.key)) {
-            return;
-        }
+        // if (KeyBindings.hasBindings(event.key)) {
+        return;
+        // }
     }
     if (event.key == "r") {
         KeyBindings.init();
