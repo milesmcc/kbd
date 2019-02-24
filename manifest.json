@@ -6,16 +6,14 @@
     "page_action": {
         "default_popup": "src/html/popup.html",
         "default_icon": {
-          "48": "assets/keyboard.png",
-          "32": "assets/keyboard.png",
-          "128": "assets/keyboard.png"
+            "48": "assets/keyboard.png",
+            "32": "assets/keyboard.png",
+            "128": "assets/keyboard.png"
         }
     },
-    "content_scripts": [
-        {
-          "matches": [".+"],
-          "css": ["src/css/styles.css"],
-          "js": ["src/js/selector.js"]
-        }
-      ],
-  }
+    "content_scripts": [{
+        "matches": ["<all_urls>"],
+        "css": ["src/css/styles.css"],
+        "js": ["src/js/selector.js"]
+    }]
+}
