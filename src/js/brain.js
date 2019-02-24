@@ -1,5 +1,16 @@
-// store data
+class RF {
+    static init() {
+        forest = new forestjs.RandomForest();
+    }
+    static retrain(data, labels) { // every 100 clicks
+        forest.train(data, labels); 
+    }
+    static oneClickProbability(curInstance) {
+        labelProbabilities = forest.predictOne(curInstance);
+    }
+}
 
+// store data
 var testData = [];
 var testLabels = [];
 var prevLen = 0;
@@ -27,14 +38,3 @@ window.setInterval( function(){
     }
 },10000)
 
-class RF {
-    static init() {
-        forest = new forestjs.RandomForest();
-    }
-    static retrain(data, labels) { // every 100 clicks
-        forest.train(data, labels); 
-    }
-    static oneClickProbability(curInstance) {
-        labelProbabilities = forest.predictOne(curInstance);
-    }
-}
