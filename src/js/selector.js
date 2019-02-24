@@ -1,5 +1,7 @@
 class KBD {
     static getElementsInOrder() {
+        var forest = chrome.storage.local.get(['kbd-forest']);
+
         var body = document.body;
         var html = document.documentElement;
         var height = Math.max(body.scrollHeight, body.offsetHeight, html.clientHeight, html.scrollHeight, html.offsetHeight);
@@ -24,7 +26,7 @@ class KBD {
                 $(elementToSelect).is("img") ? 1 : 0
             ];
 
-            return RF.clickProbability(metadata);
+            return forest.predictOne(metadata);
         }
 
         function score(element) {
