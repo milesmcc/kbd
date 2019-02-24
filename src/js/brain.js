@@ -11,17 +11,17 @@ RF.init();
 // retraining loop
 window.setInterval( function(){
     if (testDataClicked.length + testDataUnclicked.length >= prevLen + 100) {
-       for (var entry of testDataClicked) {
-           testData.append(entry)
-           testLabels.append(1)
-       }
-       for (var entry in testDataUnclicked) {
-            testData.append(entry)
-            testLabels.append(0)
-       }
+        for (var entry of testDataClicked) {
+           testData.append(entry);
+           testLabels.append(1);
+        }
+        for (var entry in testDataUnclicked) {
+            testData.append(entry);
+            testLabels.append(0);
+        }
        
        retrain(testData, testLabels);
-       prevLen = testData.length
+       prevLen = testData.length;
     }
 },10000)
 
