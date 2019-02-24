@@ -6,7 +6,7 @@ class KBD {
             return 0;
         }
           
-        elements = ally.query.tabbable().sort(compare);
+        var elements = ally.query.tabbable().sort(compare);
         
         return elements;
     }

@@ -1,0 +1,6 @@
+.kbd-overlay {
+    border-radius: 6px;
+    background-color: #f6a66440;
+    position: absolute;
+    z-index: 100000000;
+}
