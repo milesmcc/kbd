@@ -49,7 +49,7 @@ class KBD {
             Object.assign(elements[i], {"score": score(elements[i])});
         }
 
-        return ally.query.tabsequence().sort(
+        return elements.sort(
             (a, b) => {
                 if (a.score < b.score) return 1;
                 if (a.score > b.score) return -1;

@@ -102,7 +102,6 @@ class KeyBindings {
         chrome.storage.local.set({'kbd-clicked': clicked_ones});
         chrome.storage.local.set({'kbd-unclicked': clicked_ones});
         if (clicked_ones.length % 1 === 0) {
-            console.log("sending message");
             chrome.runtime.sendMessage("train");
         }
     }
@@ -110,7 +109,7 @@ class KeyBindings {
     static loadKeyPresses(elements) {
         var order = ["a", "b", "c", "d", "e", "f", "g", "h", "i", "j", "k", "l", "m", "n", "o", "p", "q", "r", "s", "t", "u", "v", "w", "x", "y", "z"];
         var keymap = {};
-        for(var i = 0; i < elements.length && i < 10; i++){
+        for(var i = 0; i < elements.length && i < 8; i++){
             keymap[order[i]] = elements[i];
         }
         this.bindings = keymap;
