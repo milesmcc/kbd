@@ -76,6 +76,9 @@ class KeyBindings {
 
     static executeKeyPress(key) {
         var elementToSelect = this.bindings[key];
+        elementToSelect.click();
+        elementToSelect.focus();
+
         var clicked_ones = chrome.storage.local.get(['kbd-clicked']);
         var metadata = [
             new Date().getUTCHours(),
