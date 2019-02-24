@@ -1,26 +1,28 @@
 // store data
-var testDataClicked = chrome.storage.local.get(['kbd-clicked'])
-var testDataUnclicked = chrome.storage.local.get(['kbd-unclicked'])
-var testData = []
-var testLabels = []
-var prevLen = 0
+var testDataClicked = chrome.storage.local.get(['kbd-clicked']);
+var testDataUnclicked = chrome.storage.local.get(['kbd-unclicked']);
+var testData = [];
+var testLabels = [];
+var prevLen = 0;
+var requiredDelta = 10;
 
 // init random forest
 RF.init();
 
 // retraining loop
 window.setInterval( function(){
-    if (testDataClicked.length + testDataUnclicked.length >= prevLen + 100) {
-       for (var entry of testDataClicked) {
-           testData.append(entry)
-           testLabels.append(1)
-       }
-       for (var entry in testDataUnclicked) {
-            testData.append(entry)
-            testLabels.append(0)
-       }
+    if (testDataClicked.length + testDataUnclicked.length >= prevLen + requiredDelta) {
+        for (var entry of testDataClicked) {
+           testData.append(entry);
+           testLabels.append(1);
+        }
+        for (var entry in testDataUnclicked) {
+            testData.append(entry);
+            testLabels.append(0);
+        }
+       console.log("retraining!");
        retrain(testData, testLabels);
-       prevLen = testData.length
+       prevLen = testData.length;
     }
 },10000)
 
@@ -31,7 +33,7 @@ class RF {
     static retrain(data, labels) { // every 100 clicks
         forest.train(data, labels); 
     }
-    static clickProbability(curData) {
-        labelProbabilities = forest.predict(curData);
+    static oneClickProbability(curInstance) {
+        labelProbabilities = forest.predictOne(curInstance);
     }
 }
