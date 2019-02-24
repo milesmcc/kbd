@@ -1,9 +1,8 @@
 <p align="center">
-  <h3 align="center" style="color: #3300CC;">KBD</h3>
-
-  <h4 align="center">
+  <h1 align="center" style="color: #3300CC;">⌨ KBD ⌨</h1>
+  <h3 align="center">
      Browse at the speed of KBD.
-  </h4>
+  </h3>
 </p>
 
 ---
