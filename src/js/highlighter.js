@@ -8,7 +8,6 @@ document.querySelector('body').addEventListener('keypress', function(event) {
     if(event.key == "t") {
         KeyBindings.toggle();
     }
-
     console.log(document.activeElement.nodeName);
     KeyBindings.executeKeyPress(event.key);
     event.preventDefault();
@@ -38,18 +37,18 @@ class KeyBindings {
         setTimeout(function () {
             setInterval(function(){
                 KeyBindings.showHighlights(false);
-            }, 250);
+            }, 50);
         }, 2000);
 
         this.showOverlays();
     }
 
     static showOverlays() {
-        $(".kbd-overlay").show( "slide", { direction: "left"  }, 300 );
+        $(".kbd-overlay").fadeIn(400);
     }
 
     static hideOverlays() {
-        $(".kbd-overlay").hide( "slide", { direction: "left"  }, 300 );
+        $(".kbd-overlay").fadeOut(400);
     }
 
     static showHighlights(firstpaint) {
@@ -60,10 +59,10 @@ class KeyBindings {
         for(var key of keys){
             var element = this.bindings[key];
             var loc = offset(element);
-            var overlay = $("<div class='kbd-overlay kbd-common'><div class='kbd-keymark kbd-common'>"+key+"</div></div>").appendTo("body");
+            var overlay = $("<div class='kbd-overlay kbd-common'><div class='kbd-keymark kbd-common'>"+key+"&nbsp;</div></div>").appendTo("body");
             overlay.css('top', loc.top - 5);
             overlay.css('left', loc.left - 5);
-            overlay.css('width', loc.width + 5);
+            overlay.css('width', loc.width + 15);
             overlay.css('height', loc.height + 5);
             if(firstpaint) {
                 overlay.addClass("kbd-firstpaint");
@@ -77,6 +76,9 @@ class KeyBindings {
 
     static executeKeyPress(key) {
         var elementToSelect = this.bindings[key];
+        elementToSelect.click();
+        elementToSelect.focus();
+
         var clicked_ones = chrome.storage.local.get(['kbd-clicked']);
         var metadata = {
             "url": document.location.href,

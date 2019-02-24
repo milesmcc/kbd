@@ -1,7 +1,8 @@
 .kbd-overlay {
     /* border-radius: 2px; */
-    border: 2px solid #555;
+    border: 1.5px solid #50505080;
     justify-content: right;
+    border-radius: 3px;
 }
 
 .kbd-firstpaint {
@@ -15,17 +16,19 @@
 }
 
 .kbd-keymark {
-    background-color: #555;
+    background-color: #50505080;
     color: white;
     font-family: Helvetica, sans-serif;
-    font-size: 12px;
+    font-size: 14px;
     font-weight: bolder;
     width: 12px !important;
     height: 12px !important;
     text-align: center;
+    margin: auto;
     overflow: visible;
-    position: relative;
+    position: absolute;
     padding-bottom: 4px;
-    padding-left: 2px;
+    padding-left: 4px;
     right: 0px;
+    border-bottom-left-radius: 3px;
 }
