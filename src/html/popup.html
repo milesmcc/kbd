@@ -43,18 +43,21 @@
             </div>
         </div>
         <hr>
-        <div class="row">
+        <div class="row middle-row">
             <div class="col-4">
-                <label class="switch">
-                    <input type="checkbox" id="global-toggle">
+                <label class="switch option">
+                    <input type="checkbox" id="global-toggle" class="option">
                     <span class="slider round"></span>
                 </label>
             </div>
-            <div class="col-8" style="font-weight: bold;">
+            <div class="col-8" style="font-weight: bold; margin-top: 4px;">
                 <p id="global-enabled" class="hidden">KBD is enabled</p>
                 <p id="global-disabled" class="hidden">KBD is disabled</p>
             </div>
         </div>
+        <hr>
+        <button id="disable-for-site" class="btn btn-outline-danger btn-block">Disable for <strong class="sitename">unknown site</strong></button>
+        <button id="enable-for-site" class="btn btn-outline-success btn-block">Enable for <strong class="sitename">unknown site</strong></button>
     </div>
     <p></p>
 </body>

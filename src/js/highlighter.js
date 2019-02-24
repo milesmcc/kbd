@@ -1,6 +1,7 @@
 document.querySelector('body').addEventListener('keypress', function (event) {
-    // console.log(event.key);
-    // console.log(event.keyCode);
+    if(disabled){
+        return;
+    }
     if (document.activeElement.nodeName == "INPUT" || document.activeElement.nodeName == "TEXTAREA") {
         // if (KeyBindings.hasBindings(event.key)) {
         return;
@@ -17,14 +18,50 @@ document.querySelector('body').addEventListener('keypress', function (event) {
         event.preventDefault();
     }
 });
+
 document.querySelector('body').addEventListener('keydown', function (event) {
     if (event.key == "Escape") {
         // console.log("ESCAPE!!!!!!!");
         document.activeElement.blur();
     }
 });
+
+var disabled = false;
+
+function loadSettings() {
+    console.log("loading settings")
+    chrome.storage.local.get("settings", function (data) {
+        var s = data.settings;
+        if (typeof s["disabled-hostnames"] === undefined) {
+            s["disabled-hostnames"] = [];
+        }
+        var domain = window.location.hostname;
+        if(s["disabled-hostnames"].indexOf(domain) != -1){
+            disabled = true;
+            console.log("disabling...");
+            return;
+        }
+        if (typeof s["global-toggle"] === undefined) {
+            s["global-toggle"] = true;
+        }
+        if(s["global-toggle"]){
+            disabled = false;
+        }else{
+            console.log("disabling...");
+            disabled = true;
+        }
+    })
+}
+
 window.onload = function () {
+    loadSettings();
+    setInterval(function () {
+        loadSettings();
+    }, 1000);
     KeyBindings.init();
+    chrome.storage.local.get("settings", function (data) {
+        console.log(data.settings);
+    })
 }
 
 class KeyBindings {
@@ -67,6 +104,10 @@ class KeyBindings {
         var keys = Object.keys(this.bindings);
         var i = 0;
         $(".kbd-common").remove();
+        if(disabled){
+            console.log("is disabled");
+            return;
+        }
         for (var key of keys) {
             var element = this.bindings[key];
             var loc = offset(element);
