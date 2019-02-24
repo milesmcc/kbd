@@ -19,6 +19,7 @@ window.setInterval( function(){
             testData.append(entry)
             testLabels.append(0)
        }
+       
        retrain(testData, testLabels);
        prevLen = testData.length
     }
@@ -31,7 +32,7 @@ class RF {
     static retrain(data, labels) { // every 100 clicks
         forest.train(data, labels); 
     }
-    static clickProbability(curData) {
-        labelProbabilities = forest.predict(curData);
+    static oneClickProbability(curInstance) {
+        labelProbabilities = forest.predictOne(curInstance);
     }
 }
