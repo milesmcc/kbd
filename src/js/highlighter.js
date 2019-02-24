@@ -80,13 +80,16 @@ class KeyBindings {
         elementToSelect.focus();
 
         var clicked_ones = chrome.storage.local.get(['kbd-clicked']);
-        var metadata = {
-            "url": document.location.href,
-            "time": new Date().getUTCHours(),
-            "classes": elementToSelect.classList,
-            "height": elementToSelect.offsetHeight,
-            "width": elementToSelect.offsetWidth
-        };
+        var metadata = [
+            new Date().getUTCHours(),
+            elementToSelect.classList.length > 0 ? 1 : 0,
+            elementToSelect.offsetHeight,
+            elementToSelect.offsetWidth,
+            getOffset(elementToSelect).top,
+            getOffset(elementToSelect).left,
+            elementToSelect.hasAttribute("href") ? 1 : 0,
+            $(elementToSelect).is("img") ? 1 : 0
+        ];
         clicked_ones.push(metadata);
         chrome.storage.local.set({'kbd-clicked': clicked_ones});
     }

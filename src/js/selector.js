@@ -1,15 +1,40 @@
 class KBD {
     static getElementsInOrder() {
+        var forest = null;
+        try {
+            forest = chrome.storage.local.get(['kbd-forest']);
+        } catch (e) {
+            // catch
+        }
+
         var body = document.body;
         var html = document.documentElement;
         var height = Math.max(body.scrollHeight, body.offsetHeight, html.clientHeight, html.scrollHeight, html.offsetHeight);
 
         function getOffset(element) {
-            const rect = el.getBoundingClientRect();
+            const rect = element.getBoundingClientRect();
             return {
                 left: rect.left + window.scrollX,
                 top: rect.top + window.scrollY
             };
+        }
+
+        function getRandomForestProbability(elementToSelect) {
+            if (forest === null) 
+                return 0;
+                
+            var metadata = [
+                new Date().getUTCHours(),
+                elementToSelect.classList.length > 0 ? 1 : 0,
+                elementToSelect.offsetHeight,
+                elementToSelect.offsetWidth,
+                getOffset(elementToSelect).top,
+                getOffset(elementToSelect).left,
+                elementToSelect.hasAttribute("href") ? 1 : 0,
+                $(elementToSelect).is("img") ? 1 : 0
+            ];
+
+            return forest.predictOne(metadata);
         }
 
         function score(element) {
@@ -22,6 +47,7 @@ class KBD {
                 return -1;
                 
             score += Math.pow(($(element).height() * $(element).width()) / (window.innerHeight * window.innerWidth), 2) * 100;
+            score += getRandomForestProbability(element);
 
             return score;
         }

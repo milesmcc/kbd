@@ -10,7 +10,7 @@
     },
     "permissions": ["storage", "unlimitedStorage"],
     "background": {
-        "scripts": ["src/js/brain.js"],
+        "scripts": ["src/js/brain.js", "src/js/randomforest.js"],
         "persistent": false
     },
     "content_scripts": [{
