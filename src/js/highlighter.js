@@ -8,8 +8,10 @@ document.querySelector('body').addEventListener('keypress', function (event) {
     if (event.key == "t") {
         KeyBindings.toggle();
     }
-    KeyBindings.executeKeyPress(event.key);
-    event.preventDefault();
+    action = KeyBindings.executeKeyPress(event.key);
+    if (action) {
+        event.preventDefault();
+    }
 });
 
 window.onload = function () {
@@ -80,7 +82,20 @@ class KeyBindings {
     }
 
     static executeKeyPress(key) {
+        // if (key.toLowerCase() === "escape") {
+        //     console.log("escape");
+        //     return false;
+        // }
+
+        var ret = true;
         var elementToSelect = this.bindings[key];
+        console.log(key);
+        if (elementToSelect == null) {
+            console.log("null");
+            ret = false;
+            return ret;
+        }
+        
         elementToSelect.click();
         elementToSelect.focus();
 
@@ -110,14 +125,31 @@ class KeyBindings {
         if (clicked_ones.length % 1 === 0) {
             chrome.runtime.sendMessage("train");
         }
+        return ret;
     }
 
     static loadKeyPresses(elements) {
         var order = ["a", "b", "c", "d", "e", "f", "g", "h", "i", "j", "k", "l", "m", "n", "o", "p", "q", "r", "s", "t", "u", "v", "w", "x", "y", "z"];
+        
+        var unclicked_ones = [];
+        chrome.storage.local.get(['kbd-unclicked'], function (data) {
+            unclicked_ones = Array.from(data['kbd-unclicked']);
+        });
+        
         var keymap = {};
         for (var i = 0; i < elements.length && i < 8; i++) {
             keymap[order[i]] = elements[i];
+            var metadata = [
+                new Date().getUTCHours(),
+                elements[i].classList.length > 0 ? 1 : 0,
+                elements[i].offsetHeight,
+                elements[i].offsetWidth,
+                elements[i].hasAttribute("href") ? 1 : 0,
+                $(elements[i]).is("img") ? 1 : 0
+            ];
+            unclicked_ones.push(metadata);
         }
+        chrome.storage.local.set({'kbd-unclicked': unclicked_ones});
         this.bindings = keymap;
     }
 }
