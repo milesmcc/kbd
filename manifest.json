@@ -1,0 +1,14 @@
+{
+    "name": "KBD",
+    "version": "1.0",
+    "description": "Add predictive text shortcuts to any website for power users and accessibility",
+    "manifest_version": 2,
+    "page_action": {
+        "default_popup": "src/html/popup.html",
+        "default_icon": {
+          "48": "assets/keyboard.png",
+          "32": "assets/keyboard.png",
+          "128": "assets/keyboard.png"
+        }
+    }
+  }
