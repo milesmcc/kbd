@@ -5,7 +5,7 @@ class KBD {
         var height = Math.max(body.scrollHeight, body.offsetHeight, html.clientHeight, html.scrollHeight, html.offsetHeight);
 
         function getOffset(element) {
-            const rect = el.getBoundingClientRect();
+            const rect = element.getBoundingClientRect();
             return {
                 left: rect.left + window.scrollX,
                 top: rect.top + window.scrollY
