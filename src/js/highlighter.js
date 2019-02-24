@@ -111,7 +111,7 @@ class KeyBindings {
         for (var key of keys) {
             var element = this.bindings[key];
             var loc = offset(element);
-            var overlay = $("<div class='kbd-overlay kbd-common'><div class='kbd-keymark kbd-common'>" + key + "&nbsp;</div></div>").appendTo("body");
+            var overlay = $("<div class='kbd-overlay kbd-common'><div class='kbd-keymark kbd-common'>" + key.toUpperCase() + "&nbsp;</div></div>").appendTo("body");
             overlay.css('top', loc.top - 5);
             overlay.css('left', loc.left - 5);
             overlay.css('width', loc.width + 15);
