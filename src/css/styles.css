@@ -3,4 +3,5 @@
     background-color: #f6a66440;
     position: absolute;
     z-index: 100000000;
+    pointer-events: none;
 }
