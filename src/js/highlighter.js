@@ -8,7 +8,6 @@ document.querySelector('body').addEventListener('keypress', function(event) {
     if(event.key == "t") {
         KeyBindings.toggle();
     }
-    console.log(document.activeElement.nodeName);
     KeyBindings.executeKeyPress(event.key);
     event.preventDefault();
 });
@@ -19,7 +18,6 @@ window.onload = function() {
 
 class KeyBindings {
     static toggle() {
-        console.log("toggling");
         if (this.shown == true) {
             this.hideOverlays();
             this.shown = false;
@@ -54,7 +52,6 @@ class KeyBindings {
     static showHighlights(firstpaint) {
         var keys = Object.keys(this.bindings);
         var i = 0;
-        console.log("updating highlights");
         $(".kbd-common").remove();
         for(var key of keys){
             var element = this.bindings[key];
@@ -74,24 +71,40 @@ class KeyBindings {
         }
     }
 
+    static getOffset(element) {
+        const rect = element.getBoundingClientRect();
+        return {
+            left: rect.left + window.scrollX,
+            top: rect.top + window.scrollY
+        };
+    }
+
     static executeKeyPress(key) {
         var elementToSelect = this.bindings[key];
         elementToSelect.click();
         elementToSelect.focus();
 
-        var clicked_ones = chrome.storage.local.get(['kbd-clicked']);
+        var clicked_ones = [];
+        try {
+            chrome.storage.local.get(['kbd-clicked']);
+        } catch (e) {
+
+        }
         var metadata = [
             new Date().getUTCHours(),
             elementToSelect.classList.length > 0 ? 1 : 0,
             elementToSelect.offsetHeight,
             elementToSelect.offsetWidth,
-            getOffset(elementToSelect).top,
-            getOffset(elementToSelect).left,
             elementToSelect.hasAttribute("href") ? 1 : 0,
             $(elementToSelect).is("img") ? 1 : 0
         ];
         clicked_ones.push(metadata);
         chrome.storage.local.set({'kbd-clicked': clicked_ones});
+        chrome.storage.local.set({'kbd-unclicked': clicked_ones});
+        if (clicked_ones.length % 1 === 0) {
+            console.log("sending message");
+            chrome.runtime.sendMessage("train");
+        }
     }
 
     static loadKeyPresses(elements) {
@@ -100,7 +113,6 @@ class KeyBindings {
         for(var i = 0; i < elements.length && i < 8; i++){
             keymap[order[i]] = elements[i];
         }
-        console.log(keymap);
         this.bindings = keymap;
     }
 }
