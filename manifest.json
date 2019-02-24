@@ -4,7 +4,7 @@
     "description": "Add predictive text shortcuts to any website for power users and accessibility",
     "manifest_version": 2,
     "browser_action": {
-        "default_icon": "assets/keyboard.svg",
+        "default_icon": "assets/keyboard.png",
         "default_title": "KBD",
         "default_popup": "src/html/popup.html"
     },
