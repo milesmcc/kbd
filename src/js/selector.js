@@ -39,6 +39,16 @@ class KBD {
             score += Math.pow(($(element).height() * $(element).width()) / (window.innerHeight * window.innerWidth), 2) * 100;
             score += getRandomForestProbability(element);
 
+            if (element.hasAttribute("href")) {
+                var links = []
+                chrome.storage.local.get(['kbd-everclicked'], function (data) {
+                    links = data['kbd-everclicked'];
+                });
+                if (links.includes(element.href)) {
+                    score += 1000;
+                }
+            }
+
             return score;
         }
 
