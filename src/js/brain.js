@@ -374,6 +374,7 @@ var requiredDelta = 10;
 
 // init random forest
 RF.init();
+chrome.storage.local.set({'kbd-forest': RF.forest});
 
 // retraining loop
 window.setInterval( function(){
@@ -391,6 +392,19 @@ window.setInterval( function(){
        console.log("retraining!");
        retrain(testData, testLabels);
        prevLen = testData.length;
-    }
-},10000)
 
+       chrome.storage.local.set({'kbd-forest': RF.forest});
+    }
+},10000);
+
+
+// fulfill requests from main script
+chrome.runtime.onConnect.addListener(function(port) {
+    // If there is a 'getCoins' connection coming in...
+    if(port.name == "getProb") {
+        // ...add a listener that is called when the other side posts a message on the port.
+        port.onMessage.addListener(function(msg) {
+            port.postMessage(RF.oneClickProbability(msg));
+        });
+    }
+}
