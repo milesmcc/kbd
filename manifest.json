@@ -11,6 +11,10 @@
             "128": "assets/keyboard.png"
         }
     },
+    "background": {
+        "scripts": ["src/js/brain.js"],
+        "persistent": false
+    },
     "content_scripts": [{
         "matches": ["<all_urls>"],
         "css": ["src/css/styles.css"],
