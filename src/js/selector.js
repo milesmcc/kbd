@@ -1,6 +1,14 @@
 class KBD {
     static getElementsInOrder() {
-        return ally.query.tabsequence();
+        function compare(a, b){
+            if (a.offsetWidth*a.offsetHeight < b.offsetWidth*b.offsetHeight) return 1;
+            if (b.offsetWidth*b.offsetHeight < a.offsetWidth*a.offsetHeight) return -1;
+            return 0;
+        }
+          
+        elements = ally.query.tabbable().sort(compare);
+        
+        return elements;
     }
 }
   
