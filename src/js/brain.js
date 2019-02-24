@@ -1,6 +1,5 @@
 // store data
-var testDataClicked = chrome.storage.local.get(['kbd-clicked']);
-var testDataUnclicked = chrome.storage.local.get(['kbd-unclicked']);
+
 var testData = [];
 var testLabels = [];
 var prevLen = 0;
@@ -11,6 +10,8 @@ RF.init();
 
 // retraining loop
 window.setInterval( function(){
+    var testDataClicked = chrome.storage.local.get(['kbd-clicked']);
+    var testDataUnclicked = chrome.storage.local.get(['kbd-unclicked']);
     if (testDataClicked.length + testDataUnclicked.length >= prevLen + requiredDelta) {
         for (var entry of testDataClicked) {
            testData.append(entry);
