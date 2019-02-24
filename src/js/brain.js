@@ -395,16 +395,4 @@ window.setInterval( function(){
 
        chrome.storage.local.set({'kbd-forest': RF.forest});
     }
-},10000);
-
-
-// fulfill requests from main script
-chrome.runtime.onConnect.addListener(function(port) {
-    // If there is a 'getCoins' connection coming in...
-    if(port.name == "getProb") {
-        // ...add a listener that is called when the other side posts a message on the port.
-        port.onMessage.addListener(function(msg) {
-            port.postMessage(RF.oneClickProbability(msg));
-        });
-    }
-}
+}, 10000);
