@@ -12,6 +12,21 @@ class KBD {
             };
         }
 
+        function getRandomForestProbability(elementToSelect) {
+            var metadata = [
+                new Date().getUTCHours(),
+                elementToSelect.classList.length > 0 ? 1 : 0,
+                elementToSelect.offsetHeight,
+                elementToSelect.offsetWidth,
+                getOffset(elementToSelect).top,
+                getOffset(elementToSelect).left,
+                elementToSelect.hasAttribute("href") ? 1 : 0,
+                $(elementToSelect).is("img") ? 1 : 0
+            ];
+
+            return RF.clickProbability(metadata);
+        }
+
         function score(element) {
             var score = 0;
 
@@ -22,6 +37,7 @@ class KBD {
                 return -1;
                 
             score += Math.pow(($(element).height() * $(element).width()) / (window.innerHeight * window.innerWidth), 2) * 100;
+            score += getRandomForestProbability(element);
 
             return score;
         }
