@@ -33,13 +33,22 @@ class KeyBindings {
 
     static executeKeyPress(key) {
         var elementToSelect = this.bindings[key];
-        console.log(elementToSelect);
+        var clicked_ones = chrome.storage.local.get(['kbd-clicked']);
+        var metadata = {
+            "url": document.location.href,
+            "time": new Date().getUTCHours(),
+            "classes": elementToSelect.classList,
+            "height": elementToSelect.offsetHeight,
+            "width": elementToSelect.offsetWidth
+        };
+        clicked_ones.push(metadata);
+        chrome.storage.local.set({'kbd-clicked': clicked_ones});
     }
 
     static loadKeyPresses(elements) {
         var order = ["a", "b", "c", "d", "e", "f", "g", "h", "i", "j", "k", "l", "m", "n", "o", "p", "q", "r", "s", "t", "u", "v", "w", "x", "y", "z"];
         var keymap = {};
-        for(var i = 0; i < elements.length; i++){
+        for (var i = 0; i < elements.length; i++) {
             keymap[order[i]] = elements[i];
         }
         console.log(keymap);
